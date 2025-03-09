@@ -1,11 +1,19 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/Burakalankus/go-rest-api-bburak-alankus/models"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// Veritabanına bağlan
+	models.ConnectDatabase()
+
+	// Migration'ları çalıştır
+	models.Migrate()
+
 	router := gin.Default()
 
 	router.GET("/", func(c *gin.Context) {
