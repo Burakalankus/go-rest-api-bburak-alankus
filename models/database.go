@@ -56,5 +56,10 @@ func Migrate() {
 		log.Fatalf("Migration failed (reviews): %v", err)
 	}
 
+	err = DB.AutoMigrate(&User{}) // User tablosunu ekleyelim
+	if err != nil {
+		log.Fatalf("Migration failed (users): %v", err)
+	}
+
 	log.Println("Database migrated successfully!")
 }

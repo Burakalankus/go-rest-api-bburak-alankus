@@ -49,6 +49,20 @@ func main() {
 	reviewRoutes.DELETE("/:id", handlers.DeleteReview)
 }
 
+	authRoutes := router.Group("/api/v1/auth")
+{
+	authRoutes.POST("/register", handlers.Register)
+	authRoutes.POST("/login", handlers.Login)
+}
+
+	protectedRoutes := router.Group("/api/v1/protected")
+	protectedRoutes.Use(handlers.AuthMiddleware())
+{
+	protectedRoutes.GET("/books", handlers.GetBooks)
+	protectedRoutes.GET("/authors", handlers.GetAuthors)
+}
+
+
 	
 	log.Println("Server is running on port 8080")
 	err := router.Run(":8080")
