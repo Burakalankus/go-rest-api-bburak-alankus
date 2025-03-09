@@ -2,16 +2,16 @@ package main
 
 import (
 	"log"
-
+	"github.com/Burakalankus/go-rest-api-bburak-alankus/handlers"
 	"github.com/Burakalankus/go-rest-api-bburak-alankus/models"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Veritabanına bağlan
+	// Connect db
 	models.ConnectDatabase()
 
-	// Migration'ları çalıştır
+	// Migrations start!
 	models.Migrate()
 
 	router := gin.Default()
@@ -22,6 +22,16 @@ func main() {
 		})
 	})
 
+	// Books endpoints
+	bookRoutes := router.Group("/api/v1/books")
+	{
+		bookRoutes.GET("", handlers.GetBooks)
+		bookRoutes.GET("/:id", handlers.GetBookByID)
+		bookRoutes.POST("", handlers.CreateBook)
+		bookRoutes.PUT("/:id", handlers.UpdateBook)
+		bookRoutes.DELETE("/:id", handlers.DeleteBook)
+	}
+	
 	log.Println("Server is running on port 8080")
 	err := router.Run(":8080")
 	if err != nil {
