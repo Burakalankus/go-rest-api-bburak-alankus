@@ -31,6 +31,15 @@ func main() {
 		bookRoutes.PUT("/:id", handlers.UpdateBook)
 		bookRoutes.DELETE("/:id", handlers.DeleteBook)
 	}
+
+	authorRoutes := router.Group("/api/v1/authors")
+	{
+		authorRoutes.GET("", handlers.GetAuthors)
+		authorRoutes.GET("/:id", handlers.GetAuthorByID)
+		authorRoutes.POST("", handlers.CreateAuthor)
+		authorRoutes.PUT("/:id", handlers.UpdateAuthor)
+		authorRoutes.DELETE("/:id", handlers.DeleteAuthor)
+	}
 	
 	log.Println("Server is running on port 8080")
 	err := router.Run(":8080")
